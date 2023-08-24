@@ -1,0 +1,23 @@
+.App {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  text-align: center;
+}
+
+.addTask{
+  display: flex;
+  justify-content: center;
+  margin: 30px 0px 0px 0px;
+}
+
+.inputTask{
+  width: max-content;
+}
+
+.listItems{
+  display: grid;
+  grid-template-columns: auto;
+  text-align: center;
+}
+
