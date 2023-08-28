@@ -1,28 +1,41 @@
 import { useState } from "react"
-import {
-  List,
-  ListItem,
-  ListItemSuffix,
-  IconButton,
-} from "@material-tailwind/react";
-import { Icon } from "./icons"
+import { TaskList } from "./component/TaskList";
+
 
 function App() {
 
   const [todoList, setTodoList] = useState([]);
-  const [task, setTask] = useState("");
+  const [newTask, setTask] = useState("");
 
   const handleChange = (event) => {
     setTask(event.target.value)
   }
 
   const addtask = () => {
-    const newTodoList = [...todoList, task]
-    setTodoList(newTodoList);
-    console.log({ newTodoList })
+    // const newTodoList = [...todoList, task]
+    const task = {
+      id: todoList.length === 0 ? 1 : todoList[todoList.length - 1].id + 1,
+      taskName: newTask,
+      completed: false
+    }
+    setTodoList([...todoList, task]);
+    // console.log({ todoList })
   }
 
 
+  const deleteTask = (id) => {
+    // filtering the old todo list with the selected task name and returning the new list
+    setTodoList(todoList.filter((task) => {
+      return task.id !== id
+    }))
+  }
+
+  const updateTask = (id) => {
+    // filtering the old todo list with the selected task name and returning the new list
+    setTodoList(todoList.map((task) => {
+      return task.id !== id ? {...task, completed:true} : {task}
+    }))
+  }
   return (
     <div className="App">
       <div className="mt-2">
@@ -37,19 +50,11 @@ function App() {
           Add Task
         </button>
       </div>
-      <div className="bg-blue-gray-200 m-auto w-[30rem]">
-      {todoList.map((task) => {
-       return (<List className="m-auto w-96" >
-          <ListItem ripple={false} className="py-1 pr-1 pl-4">
-            {task}
-            <ListItemSuffix>
-              <IconButton variant="text" color="purple-gray">
-                <Icon />
-              </IconButton>
-            </ListItemSuffix>
-          </ListItem>
-        </List>
-      )})}
+      <div className="bg-blue-gray-100  m-auto w-[30rem]">
+        {todoList.map((task) => {
+          return (
+            <TaskList taskName={task.taskName} id={task.id} deleteTask={deleteTask} completed={task.completed} updateTask={updateTask} />)
+        })}
       </div>
     </div>
   );
