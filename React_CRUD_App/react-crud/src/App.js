@@ -1,4 +1,4 @@
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import { TaskList } from "./component/TaskList";
 
 
@@ -6,6 +6,14 @@ function App() {
 
   const [todoList, setTodoList] = useState([]);
   const [newTask, setTask] = useState("");
+
+  useEffect(()=>{
+    console.log("Component Mounted");
+
+    return ()=>{
+      console.log("Component Unmounted")
+    }
+  },[])
 
   const handleChange = (event) => {
     setTask(event.target.value)
@@ -16,10 +24,10 @@ function App() {
     const task = {
       id: todoList.length === 0 ? 1 : todoList[todoList.length - 1].id + 1,
       taskName: newTask,
-      completed: false
+      completed: false,
     }
     setTodoList([...todoList, task]);
-    // console.log({ todoList })
+    console.log(todoList)
   }
 
 
@@ -31,11 +39,20 @@ function App() {
   }
 
   const updateTask = (id) => {
-    // filtering the old todo list with the selected task name and returning the new list
+    // update the old todo list with the selected task name and returning the new list
     setTodoList(todoList.map((task) => {
-      return task.id !== id ? {...task, completed:true} : {task}
+      if(task.id === id){
+        console.log("updated");
+        return {...task, completed:true};
+      }
+      else{
+        console.log("Not updated");
+       return task;
+      }
     }))
   }
+
+
   return (
     <div className="App">
       <div className="mt-2">
