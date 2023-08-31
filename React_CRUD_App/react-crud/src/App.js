@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react"
 import { TaskList } from "./component/TaskList";
+import Api from "./Api";
 
 
 function App() {
@@ -7,13 +8,13 @@ function App() {
   const [todoList, setTodoList] = useState([]);
   const [newTask, setTask] = useState("");
 
-  useEffect(()=>{
+  useEffect(() => {
     console.log("Component Mounted");
 
-    return ()=>{
+    return () => {
       console.log("Component Unmounted")
     }
-  },[])
+  }, [])
 
   const handleChange = (event) => {
     setTask(event.target.value)
@@ -41,13 +42,13 @@ function App() {
   const updateTask = (id) => {
     // update the old todo list with the selected task name and returning the new list
     setTodoList(todoList.map((task) => {
-      if(task.id === id){
+      if (task.id === id) {
         console.log("updated");
-        return {...task, completed:true};
+        return { ...task, completed: true };
       }
-      else{
+      else {
         console.log("Not updated");
-       return task;
+        return task;
       }
     }))
   }
@@ -73,6 +74,7 @@ function App() {
             <TaskList taskName={task.taskName} id={task.id} deleteTask={deleteTask} completed={task.completed} updateTask={updateTask} />)
         })}
       </div>
+      <Api/>
     </div>
   );
 }
